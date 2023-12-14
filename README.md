@@ -5,6 +5,6 @@ Simple brainf*ck interpretor written in Zig.
 $ git clone https://github.com/kickhead13/zigfck.git
 $ cd zigfck
 $ zig build --release
-$ /zig-out/bin/zigfck --help
+$ /zig-out/bin/zigfck help
 ```
 
