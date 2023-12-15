@@ -1,6 +1,8 @@
 const std = @import("std");
-const help = @import("help.zig");
 const print = @import("std").debug.print;
+
+const help = @import("help.zig");
+const instruction_parsing = @import("instruction_parsing.zig");
 
 pub fn rust_compile(file_name: []const u8, output: []const u8) !void {
   print("{s}\n{s}\n", .{file_name, output});
@@ -16,6 +18,43 @@ pub fn asm_compile(file_name: []const u8, output: []const u8) !void {
 
 pub fn zig_compile(file_name: [] const u8, output: []const u8) !void {
   print("{s}\n{s}\n", .{file_name, output});
+}
+
+pub fn exec_compile(
+    parser: instruction_parsing.Parser,
+    file_name: []const u8,
+    output:[]const u8) !void {
+
+  try parser.print();
+  print("{s}\n{s}", .{file_name, output});
+
+
+  //var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+  //var allocator = gpa.allocator();
+
+  //var file = try std.fs.cwd().openFile(file_name, .{});
+  //defer file.close();
+
+  //var buffered = std.io.bufferedReader(file.reader());
+  //var reader = buffered.reader();
+
+  //var arr = std.ArrayList(u8).init(allocator);
+  //defer arr.deinit();
+
+  //while(true) {
+
+    //reader.readUntilDelimiter(arr.writer(), '\n') 
+      //catch |err| switch(err) {
+        //error.EndOfStream => break,
+        //else => return err,
+      //};
+
+    //for(arr) |elem| {
+ //     parser.parse(elem);
+    //}
+
+  //}
+
 }
 
 pub fn compile(argsIter: *std.process.ArgIterator) !void {
@@ -68,7 +107,8 @@ pub fn compile(argsIter: *std.process.ArgIterator) !void {
   }
 
   if(std.mem.eql(u8, language[0..4], "-zig")) {
-    try zig_compile(&file_name, &output_file_name);
+    var parser = instruction_parsing.Parser.compile_zig();
+    try exec_compile(parser, &file_name, &output_file_name);
   }
 
   return;

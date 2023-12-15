@@ -9,6 +9,9 @@ const BASE_TEN = 10;
 
 pub fn main() !void {
 
+  var testt = instruction_parsing.Parser.compile_zig();
+  try testt.print();
+
   var allocator = std.heap.page_allocator;
  
   var argsIter = try std.process.ArgIterator
